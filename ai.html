@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Business Advisor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="top">
+    <div class="brand"><span class="dot"></span><strong>BENZ,S LAB</strong></div>
+    <div class="tools">
+      <span id="modelNote" class="note"></span>
+      <button id="themeBtn" class="icon" title="Switch light / dark theme" aria-label="Switch theme"><img id="themeImg" class="ic" src="icons/moon.svg" alt=""></button>
+      <button id="profileBtn" class="ghost" hidden><img class="ic" src="icons/user.svg" alt=""> <span id="profileName"></span></button>
+    </div>
+  </header>
+
+  
+
+  <dialog id="profile">
+    <form method="dialog" id="profileForm">
+      <h2>Your profile</h2>
+      <label>Your name<input id="pName" maxlength="40" required placeholder="What should the AI call you?"></label>
+      <label>Business name (optional)<input id="pBiz" maxlength="60"></label>
+      <label>AI tone
+        <select id="pTone"><option value="friendly">Friendly</option><option value="professional">Professional</option><option value="direct">Direct and brief</option></select>
+      </label>
+      <label>Answer length
+        <select id="pLength"><option value="short">Short</option><option value="balanced">Balanced</option><option value="detailed">Detailed</option></select>
+      </label>
+      <label>Voice language
+        <select id="pVoice"><option value="">Browser default</option><option value="en-US">English</option><option value="fr-FR">Français</option><option value="ur-PK">اردو</option><option value="ar-SA">العربية</option></select>
+      </label>
+      <label>Theme
+        <select id="pTheme"><option value="dark">Dark</option><option value="light">Light</option></select>
+      </label>
+      <div class="row"><button class="btn" value="save">Save</button><button class="ghost" id="pClose" value="cancel" formnovalidate>Close</button><button type="button" class="ghost" id="logout">Log out</button></div>
+    </form>
+  </dialog>
+
+  <main class="layout">
+    <aside>
+      <div class="modes">
+        <button id="modeDiag" class="mode on">Diagnostic</button>
+        <button id="modeAsk" class="mode">Ask a question</button>
+      </div>
+      <button id="new" class="btn">New chat</button>
+      <ul id="history"></ul>
+    </aside>
+    <section class="chat">
+      <div id="log" aria-live="polite"></div>
+      <form id="form">
+        <button type="button" id="mic" class="icon" title="Speak (voice to text)" aria-label="Voice to text"><img class="ic" src="icons/mic.svg" alt=""></button>
+        <input id="msg" maxlength="2000" placeholder="Type or speak…" autocomplete="off" required>
+        <button class="btn" id="send">Send</button>
+        <button type="button" class="btn" id="pause" hidden><img class="ic" src="icons/pause.svg" alt=""> Pause</button>
+      </form>
+    </section>
+  </main>
+ 
+  <script src="config.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+
+</html>

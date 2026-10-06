@@ -1,0 +1,1047 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up · Ben's Lab</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #070711;
+            --card: #10101e;
+            --primary: #8b5cf6;
+            --secondary: #6366f1;
+            --text: #f8fafc;
+            --muted: #9292ad;
+            --border: rgba(255, 255, 255, 0.09);
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            overflow-x: hidden;
+
+            background: var(--bg);
+            color: var(--text);
+
+            position: relative;
+        }
+
+        /* =========================
+           ANIMATED BACKGROUND
+        ========================= */
+
+        body::before,
+        body::after {
+            content: "";
+
+            position: fixed;
+
+            width: 450px;
+            height: 450px;
+
+            border-radius: 50%;
+
+            filter: blur(120px);
+
+            opacity: 0.35;
+
+            z-index: -1;
+
+            pointer-events: none;
+        }
+
+        body::before {
+            background: #7c3aed;
+
+            top: -180px;
+            left: -150px;
+
+            animation:
+                floatOne 10s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            background: #4f46e5;
+
+            bottom: -180px;
+            right: -150px;
+
+            animation:
+                floatTwo 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatOne {
+
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(100px, 100px);
+            }
+        }
+
+        @keyframes floatTwo {
+
+            from {
+                transform: translate(0, 0);
+            }
+
+            to {
+                transform: translate(-100px, -80px);
+            }
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .auth-container {
+            width: 100%;
+            max-width: 430px;
+
+            animation:
+                fadeUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           BRAND
+        ========================= */
+
+        .brand {
+            text-align: center;
+
+            margin-bottom: 30px;
+
+            animation:
+                brandEnter 1s ease;
+        }
+
+        @keyframes brandEnter {
+
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .brand h1 {
+
+            font-size: 36px;
+
+            font-weight: 800;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #c4b5fd,
+                    #8b5cf6,
+                    #6366f1
+                );
+
+            background-size: 200% auto;
+
+            background-clip: text;
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            animation:
+                gradientMove 4s linear infinite;
+        }
+
+        @keyframes gradientMove {
+
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .brand p {
+
+            color: var(--muted);
+
+            font-size: 14px;
+
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+
+            position: relative;
+
+            padding: 38px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 24px;
+
+            background:
+                rgba(16, 16, 30, 0.88);
+
+            backdrop-filter: blur(20px);
+
+            -webkit-backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.45),
+                0 0 40px rgba(139, 92, 246, 0.07);
+
+            transition:
+                border-color 0.3s,
+                box-shadow 0.3s;
+
+            overflow: hidden;
+        }
+
+        .card:hover {
+
+            border-color:
+                rgba(139, 92, 246, 0.4);
+
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.5),
+                0 0 45px rgba(139, 92, 246, 0.12);
+        }
+
+        /* Animated card line */
+
+        .card::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -100%;
+
+            width: 70%;
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #8b5cf6,
+                    #6366f1,
+                    transparent
+                );
+
+            animation:
+                cardShine 4s linear infinite;
+        }
+
+        @keyframes cardShine {
+
+            from {
+                left: -100%;
+            }
+
+            to {
+                left: 150%;
+            }
+        }
+
+        .card h2 {
+
+            font-size: 27px;
+
+            margin-bottom: 10px;
+
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+
+            color: var(--muted);
+
+            font-size: 14px;
+
+            margin-bottom: 30px;
+
+            line-height: 1.6;
+        }
+
+        /* =========================
+           INPUT GROUP
+        ========================= */
+
+        .input-group {
+
+            margin-bottom: 22px;
+
+            animation:
+                inputEnter 0.7s ease backwards;
+        }
+
+        .input-group:nth-child(1) {
+            animation-delay: 0.15s;
+        }
+
+        .input-group:nth-child(2) {
+            animation-delay: 0.25s;
+        }
+
+        .input-group:nth-child(3) {
+            animation-delay: 0.35s;
+        }
+
+        @keyframes inputEnter {
+
+            from {
+                opacity: 0;
+                transform: translateX(-15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        label {
+
+            display: block;
+
+            color: #d4d4e5;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 10px;
+        }
+
+        /* =========================
+           INPUT
+        ========================= */
+
+        input {
+
+            width: 100%;
+
+            padding: 15px 16px;
+
+            border:
+                1px solid #29293d;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            background: #0b0b16;
+
+            color: var(--text);
+
+            font-size: 14px;
+
+            transition:
+                border-color 0.3s,
+                box-shadow 0.3s,
+                transform 0.3s;
+        }
+
+        input::placeholder {
+            color: #65657d;
+        }
+
+        input:hover {
+
+            border-color: #484064;
+        }
+
+        input:focus {
+
+            border-color:
+                var(--primary);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(139, 92, 246, 0.13);
+
+            transform:
+                translateY(-2px);
+        }
+
+        /* =========================
+           PASSWORD STRENGTH
+        ========================= */
+
+        .password-info {
+
+            font-size: 11px;
+
+            color: #65657d;
+
+            margin-top: 7px;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        button[type="submit"] {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.4px;
+
+            cursor: pointer;
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition:
+                transform 0.3s,
+                box-shadow 0.3s,
+                opacity 0.3s;
+        }
+
+        /* Button shine */
+
+        button[type="submit"]::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -100%;
+
+            width: 100%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.25),
+                    transparent
+                );
+
+            transition:
+                left 0.6s;
+        }
+
+        button[type="submit"]:hover::before {
+            left: 100%;
+        }
+
+        button[type="submit"]:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 10px 30px
+                rgba(124, 58, 237, 0.35);
+        }
+
+        button[type="submit"]:active {
+
+            transform:
+                scale(0.98);
+        }
+
+        button:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+            box-shadow: none;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        .message {
+
+            margin-top: 16px;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+
+            min-height: 20px;
+
+            overflow-wrap: anywhere;
+        }
+
+        .message:not(:empty) {
+
+            animation:
+                messageIn 0.3s ease;
+        }
+
+        @keyframes messageIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           LOGIN LINK
+        ========================= */
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 27px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        .login-link a {
+
+            color: #a78bfa;
+
+            text-decoration: none;
+
+            font-weight: 700;
+
+            margin-left: 4px;
+
+            transition:
+                color 0.3s;
+        }
+
+        .login-link a:hover {
+
+            color: #c4b5fd;
+
+            text-decoration: underline;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+
+            text-align: center;
+
+            color: #55556c;
+
+            font-size: 11px;
+
+            margin-top: 25px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .card {
+
+                padding: 27px 23px;
+
+                border-radius: 20px;
+            }
+
+            .brand h1 {
+                font-size: 32px;
+            }
+
+            .card h2 {
+                font-size: 24px;
+            }
+        }
+
+        /* =========================
+           REDUCED MOTION
+        ========================= */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+
+                animation-duration:
+                    0.01ms !important;
+
+                animation-iteration-count:
+                    1 !important;
+
+                transition-duration:
+                    0.01ms !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <!-- BRAND -->
+
+        <div class="brand">
+
+            <h1>Ben's Lab</h1>
+
+            <p>
+                AI Business Advisor
+            </p>
+
+        </div>
+
+
+        <!-- CARD -->
+
+        <div class="card">
+
+            <h2>
+                Create Account
+            </h2>
+
+            <p class="subtitle">
+                Start using Ben's Lab today.
+            </p>
+
+
+            <form id="signupForm">
+
+                <!-- NAME -->
+
+                <div class="input-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter your name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="input-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                    <div class="password-info">
+                        Minimum 6 characters
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <button
+                    type="submit"
+                    id="signupBtn"
+                >
+                    Create Account
+                </button>
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    class="message"
+                    id="message"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+            </form>
+
+
+            <!-- LOGIN -->
+
+            <div class="login-link">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+            © 2026 Ben's Lab · AI Business Advisor
+        </div>
+
+    </div>
+
+
+    <!-- FIREBASE -->
+
+
+<script type="module">
+
+    import { auth } from "./firebase-config.js";
+
+    import {
+        createUserWithEmailAndPassword,
+        updateProfile
+    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+
+    const form =
+        document.getElementById("signupForm");
+
+    const message =
+        document.getElementById("message");
+
+    const button =
+        document.getElementById("signupBtn");
+
+
+    form.addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+
+        const name =
+            document.getElementById("name").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const password =
+            document.getElementById("password").value;
+
+
+        /* =========================
+           CHECK NAME
+        ========================= */
+
+        if (!name) {
+
+            message.style.color = "#fb7185";
+            message.textContent =
+                "Please enter your full name.";
+
+            document.getElementById("name").focus();
+
+            return;
+        }
+
+
+        /* =========================
+           CHECK EMAIL
+        ========================= */
+
+        if (!email) {
+
+            message.style.color = "#fb7185";
+            message.textContent =
+                "Please enter your email address.";
+
+            document.getElementById("email").focus();
+
+            return;
+        }
+
+
+        /* =========================
+           CHECK EMAIL FORMAT
+        ========================= */
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+
+            message.style.color = "#fb7185";
+            message.textContent =
+                "Please enter a valid email address.";
+
+            document.getElementById("email").focus();
+
+            return;
+        }
+
+
+        /* =========================
+           CHECK PASSWORD
+        ========================= */
+
+        if (!password) {
+
+            message.style.color = "#fb7185";
+            message.textContent =
+                "Please enter a password.";
+
+            document.getElementById("password").focus();
+
+            return;
+        }
+
+
+        /* =========================
+           PASSWORD LENGTH
+        ========================= */
+
+        if (password.length < 6) {
+
+            message.style.color = "#fb7185";
+            message.textContent =
+                "Password must be at least 6 characters.";
+
+            document.getElementById("password").focus();
+
+            return;
+        }
+
+
+        /* =========================
+           START SIGNUP
+        ========================= */
+
+        message.textContent = "";
+
+        button.disabled = true;
+
+        button.textContent =
+            "Creating account...";
+
+
+        try {
+
+            const userCredential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+            /* SAVE USER NAME */
+
+            await updateProfile(
+                userCredential.user,
+                {
+                    displayName: name
+                }
+            );
+
+
+            /* SUCCESS */
+
+            message.style.color =
+                "#34d399";
+
+            message.textContent =
+                "Account created successfully!";
+
+
+            button.textContent =
+                "Account Created!";
+
+
+            /*
+                ONLY NOW redirect to ai.html
+            */
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "ai.html";
+
+            }, 1000);
+
+
+        }
+
+        catch (error) {
+
+            message.style.color =
+                "#fb7185";
+
+
+            if (
+                error.code ===
+                "auth/email-already-in-use"
+            ) {
+
+                message.textContent =
+                    "This email is already registered.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/weak-password"
+            ) {
+
+                message.textContent =
+                    "Password must be at least 6 characters.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                message.textContent =
+                    "Please enter a valid email.";
+
+            }
+
+            else {
+
+                message.textContent =
+                    "Account creation failed. Please try again.";
+
+                console.error(
+                    "Signup error:",
+                    error
+                );
+            }
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "Create Account";
+
+        }
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

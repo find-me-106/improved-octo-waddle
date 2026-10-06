@@ -1,0 +1,3 @@
+.ic { width: 1em; height: 1em; vertical-align: -0.14em; display: inline-block; flex: none; }
+/* icons that sit on a purple / gradient background are shown in white */
+.primary-btn .ic, .ai-button .ic, .ai-orb .ic, .avatar .ic, .hero-tag .ic { filter: brightness(0) invert(1); }

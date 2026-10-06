@@ -1,0 +1,1306 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Insights — Ben's Lab</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --text: #172033;
+            --muted: #7b8497;
+            --primary: #635bff;
+            --border: #e8ebf2;
+            --success: #19b56b;
+            --warning: #f59e0b;
+            --danger: #ef5350;
+            --shadow: 0 15px 40px rgba(30, 40, 80, 0.08);
+        }
+
+        body.dark {
+            --bg: #10131c;
+            --card: #181d29;
+            --text: #f3f5fa;
+            --muted: #9ba4b7;
+            --border: #282e3d;
+            --shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: 0.3s;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--card);
+            border-right: 1px solid var(--border);
+            padding: 25px 18px;
+            z-index: 1000;
+            transition: 0.3s;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 45px;
+            padding: 0 10px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #635bff, #8d6bff);
+            color: white;
+            border-radius: 13px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .logo-text h2 {
+            font-size: 18px;
+        }
+
+        .logo-text span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 10px 12px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            border-radius: 10px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.25s;
+        }
+
+        .nav-link:hover {
+            background: rgba(99, 91, 255, 0.08);
+            color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .nav-link.active {
+            background: rgba(99, 91, 255, 0.11);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .nav-link span {
+            font-size: 18px;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9966, #ff5e62);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* INSIGHT HERO */
+
+        .insight-hero {
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(255,255,255,0.16),
+                    transparent 25%
+                ),
+                linear-gradient(135deg, #635bff, #8068ff, #9b72ff);
+
+            border-radius: 20px;
+            padding: 32px;
+            color: white;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(99,91,255,0.2);
+        }
+
+        .insight-hero span {
+            display: inline-block;
+            background: rgba(255,255,255,0.14);
+            padding: 7px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            margin-bottom: 15px;
+        }
+
+        .insight-hero h2 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .insight-hero p {
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 21px;
+            box-shadow: var(--shadow);
+            transition: 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(99,91,255,0.1);
+            font-size: 19px;
+        }
+
+        .percentage {
+            color: var(--success);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .card h3 {
+            font-size: 23px;
+            margin-bottom: 5px;
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* CONTENT */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .panel-header h3 {
+            font-size: 17px;
+        }
+
+        .panel-header span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* SALES CHART */
+
+        .chart {
+            height: 250px;
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            border-bottom: 1px solid var(--border);
+            padding-top: 10px;
+        }
+
+        .bar-group {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 45px;
+            border-radius: 7px 7px 0 0;
+            background: linear-gradient(to top, #635bff, #9b72ff);
+            animation: grow 1s ease;
+        }
+
+        @keyframes grow {
+            from {
+                height: 0;
+            }
+        }
+
+        .month {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* AI INSIGHTS */
+
+        .ai-insight {
+            padding: 17px;
+            border-radius: 13px;
+            background: rgba(99,91,255,0.06);
+            border: 1px solid rgba(99,91,255,0.13);
+            margin-bottom: 12px;
+        }
+
+        .ai-insight:last-child {
+            margin-bottom: 0;
+        }
+
+        .ai-title {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 9px;
+        }
+
+        .ai-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--primary);
+            color: white;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-title strong {
+            font-size: 13px;
+        }
+
+        .ai-title small {
+            display: block;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .ai-insight p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* CUSTOMER INSIGHTS */
+
+        .customer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 17px;
+        }
+
+        .customer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .customer-name {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .customer-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 9px;
+            background: rgba(99,91,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .customer-name strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .customer-name small {
+            display: block;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .customer-value {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* OPPORTUNITIES */
+
+        .opportunities {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .opportunity {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .opportunity-icon {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .opportunity h4 {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .opportunity p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .opportunity a {
+            display: inline-block;
+            margin-top: 14px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* MOBILE */
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            width: 42px;
+            height: 42px;
+            border: none;
+            background: var(--card);
+            color: var(--text);
+            border-radius: 10px;
+            z-index: 1100;
+            font-size: 20px;
+        }
+
+        @media(max-width:1100px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .opportunities {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width:800px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 80px 18px 30px;
+            }
+
+            .profile-info {
+                display: none;
+            }
+        }
+
+        @media(max-width:550px) {
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .insight-hero h2 {
+                font-size: 25px;
+            }
+
+            .chart {
+                gap: 7px;
+            }
+
+            .bar {
+                max-width: 30px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="icons.css">
+</head>
+
+<body>
+
+    <!-- MOBILE MENU -->
+
+    <button class="mobile-menu" onclick="toggleSidebar()">
+        <img class="ic" src="icons/menu.svg" alt="">
+    </button>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                B
+            </div>
+
+            <div class="logo-text">
+                <h2>Ben's Lab</h2>
+                <span>AI Business Advisor</span>
+            </div>
+
+        </div>
+
+        <div class="nav-title">
+            Workspace
+        </div>
+
+        <nav class="nav">
+
+            <a href="index.html" class="nav-link">
+                <span><img class="ic" src="icons/home.svg" alt=""></span>
+                Dashboard
+            </a>
+
+            <a href="signup.html" class="nav-link">
+                <span><img class="ic" src="icons/sparkle.svg" alt=""></span>
+                AI Advisor
+            </a>
+
+            <a href="insights.html" class="nav-link active">
+                <span><img class="ic" src="icons/layers.svg" alt=""></span>
+                Insights
+            </a>
+
+            <a href="./strategy.html" class="nav-link" >
+                <span><img class="ic" src="icons/target.svg" alt=""></span>
+                Strategy
+            </a>
+
+            <a href="./goals.html" class="nav-link">
+                <span><img class="ic" src="icons/check.svg" alt=""></span>
+                Goals
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>Business Insights</h1>
+
+                <p>
+                    Understand your business performance and discover opportunities.
+                </p>
+
+            </div>
+
+            <div class="top-actions">
+
+                <button class="icon-btn" onclick="toggleTheme()">
+                    <img class="ic" src="icons/theme.svg" alt="">
+                </button>
+
+                <div class="avatar">
+                    B
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="insight-hero">
+
+            <span>
+                <img class="ic" src="icons/sparkle.svg" alt=""> AI BUSINESS ANALYTICS
+            </span>
+
+            <h2>
+                Your business at a glance.
+            </h2>
+
+            <p>
+                Review your latest business performance, customer behavior,
+                sales trends and AI-powered opportunities to help you make
+                better decisions.
+            </p>
+
+        </section>
+
+
+        <!-- STAT CARDS -->
+
+        <section class="cards">
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="card-icon">
+                        <img class="ic" src="icons/coin.svg" alt="">
+                    </div>
+
+                    <span class="percentage">
+                        +12.5%
+                    </span>
+
+                </div>
+
+                <h3>$24,580</h3>
+
+                <p>
+                    Revenue this month
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="card-icon">
+                        <img class="ic" src="icons/cart.svg" alt="">
+                    </div>
+
+                    <span class="percentage">
+                        +8.2%
+                    </span>
+
+                </div>
+
+                <h3>1,284</h3>
+
+                <p>
+                    Total orders
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="card-icon">
+                        <img class="ic" src="icons/users.svg" alt="">
+                    </div>
+
+                    <span class="percentage">
+                        +14.8%
+                    </span>
+
+                </div>
+
+                <h3>3,842</h3>
+
+                <p>
+                    Active customers
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-top">
+
+                    <div class="card-icon">
+                        <img class="ic" src="icons/barchart.svg" alt="">
+                    </div>
+
+                    <span class="percentage">
+                        +5.4%
+                    </span>
+
+                </div>
+
+                <h3>68.4%</h3>
+
+                <p>
+                    Growth rate
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHART + AI -->
+
+        <section class="content-grid">
+
+            <!-- SALES TREND -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        Revenue Trend
+                    </h3>
+
+                    <span>
+                        Last 7 months
+                    </span>
+
+                </div>
+
+                <div class="chart">
+
+                    <div class="bar-group">
+                        <div class="bar" style="height:42%;"></div>
+                        <span class="month">Jan</span>
+                    </div>
+
+                    <div class="bar-group">
+                        <div class="bar" style="height:52%;"></div>
+                        <span class="month">Feb</span>
+                    </div>
+
+                    <div class="bar-group">
+                        <div class="bar" style="height:48%;"></div>
+                        <span class="month">Mar</span>
+                    </div>
+
+                    <div class="bar-group">
+                        <div class="bar" style="height:63%;"></div>
+                        <span class="month">Apr</span>
+                    </div>
+
+                    <div class="bar-group">
+                        <div class="bar" style="height:69%;"></div>
+                        <span class="month">May</span>
+                    </div>
+
+                    <div class="bar-group">
+                        <div class="bar" style="height:79%;"></div>
+                        <span class="month">Jun</span>
+                    </div>
+
+                    <div class="bar-group">
+                        <div class="bar" style="height:94%;"></div>
+                        <span class="month">Jul</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI INSIGHTS -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        AI Insights
+                    </h3>
+
+                    <span>
+                        Updated now
+                    </span>
+
+                </div>
+
+
+                <div class="ai-insight">
+
+                    <div class="ai-title">
+
+                        <div class="ai-icon">
+                            <img class="ic" src="icons/trend.svg" alt="">
+                        </div>
+
+                        <div>
+                            <strong>
+                                Strong Revenue Growth
+                            </strong>
+
+                            <small>
+                                Positive trend
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Revenue has increased consistently over the
+                        recent months. Consider investing in your
+                        strongest-performing sales channels.
+                    </p>
+
+                </div>
+
+
+                <div class="ai-insight">
+
+                    <div class="ai-title">
+
+                        <div class="ai-icon">
+                            <img class="ic" src="icons/users.svg" alt="">
+                        </div>
+
+                        <div>
+                            <strong>
+                                Customer Growth
+                            </strong>
+
+                            <small>
+                                Acquisition opportunity
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Customer numbers are increasing. Improving
+                        retention and repeat purchases could increase
+                        long-term business value.
+                    </p>
+
+                </div>
+
+
+                <div class="ai-insight">
+
+                    <div class="ai-title">
+
+                        <div class="ai-icon">
+                            <img class="ic" src="icons/bulb.svg" alt="">
+                        </div>
+
+                        <div>
+                            <strong>
+                                Marketing Opportunity
+                            </strong>
+
+                            <small>
+                                Recommended action
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Test targeted promotional campaigns to discover
+                        which audience segments respond best.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CUSTOMER INSIGHTS -->
+
+        <section class="content-grid">
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        Customer Insights
+                    </h3>
+
+                    <span>
+                        Current period
+                    </span>
+
+                </div>
+
+
+                <div class="customer-list">
+
+                    <div class="customer-row">
+
+                        <div class="customer-name">
+
+                            <div class="customer-avatar">
+                                <img class="ic" src="icons/user.svg" alt="">
+                            </div>
+
+                            <div>
+                                <strong>
+                                    New Customers
+                                </strong>
+
+                                <small>
+                                    Recently acquired
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <div class="customer-value">
+                            1,240
+                        </div>
+
+                    </div>
+
+
+                    <div class="customer-row">
+
+                        <div class="customer-name">
+
+                            <div class="customer-avatar">
+                                <img class="ic" src="icons/refresh.svg" alt="">
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Returning Customers
+                                </strong>
+
+                                <small>
+                                    Repeat purchases
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <div class="customer-value">
+                            842
+                        </div>
+
+                    </div>
+
+
+                    <div class="customer-row">
+
+                        <div class="customer-name">
+
+                            <div class="customer-avatar">
+                                <img class="ic" src="icons/star.svg" alt="">
+                            </div>
+
+                            <div>
+                                <strong>
+                                    High Value Customers
+                                </strong>
+
+                                <small>
+                                    Top customers
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="customer-value">
+                            326
+                        </div>
+
+                    </div>
+
+
+                    <div class="customer-row">
+
+                        <div class="customer-name">
+
+                            <div class="customer-avatar">
+                                <img class="ic" src="icons/heart.svg" alt="">
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Customer Retention
+                                </strong>
+
+                                <small>
+                                    Returning rate
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                        <div class="customer-value">
+                            72.8%
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PERFORMANCE -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h3>
+                        Performance
+                    </h3>
+
+                    <span>
+                        This month
+                    </span>
+
+                </div>
+
+
+                <div class="ai-insight">
+
+                    <div class="ai-title">
+
+                        <div class="ai-icon">
+                            <img class="ic" src="icons/trophy.svg" alt="">
+                        </div>
+
+                        <div>
+                            <strong>
+                                Overall Performance
+                            </strong>
+
+                            <small>
+                                Excellent
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Your business is showing positive momentum
+                        across revenue, customers and orders.
+                    </p>
+
+                </div>
+
+
+                <div class="ai-insight">
+
+                    <div class="ai-title">
+
+                        <div class="ai-icon">
+                            <img class="ic" src="icons/target.svg" alt="">
+                        </div>
+
+                        <div>
+                            <strong>
+                                Next Focus
+                            </strong>
+
+                            <small>
+                                Customer retention
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Focus on turning new customers into repeat
+                        customers through useful offers and follow-up.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- OPPORTUNITIES -->
+
+        <section>
+
+            <div class="panel-header">
+                <h3>
+                    Business Opportunities
+                </h3>
+            </div>
+
+            <div class="opportunities">
+
+                <div class="opportunity">
+
+                    <div class="opportunity-icon">
+                        <img class="ic" src="icons/trend.svg" alt="">
+                    </div>
+
+                    <h4>
+                        Increase Sales
+                    </h4>
+
+                    <p>
+                        Explore new sales channels and improve
+                        conversion opportunities.
+                    </p>
+
+                    <a href="signup.html">
+                        Ask AI <img class="ic" src="icons/arrow.svg" alt="">
+                    </a>
+
+                </div>
+
+
+                <div class="opportunity">
+
+                    <div class="opportunity-icon">
+                        <img class="ic" src="icons/megaphone.svg" alt="">
+                    </div>
+
+                    <h4>
+                        Improve Marketing
+                    </h4>
+
+                    <p>
+                        Discover campaign ideas and strategies for
+                        reaching more customers.
+                    </p>
+
+                    <a href="signup.html">
+                        Ask AI <img class="ic" src="icons/arrow.svg" alt="">
+                    </a>
+
+                </div>
+
+
+                <div class="opportunity">
+
+                    <div class="opportunity-icon">
+                        <img class="ic" src="icons/coin.svg" alt="">
+                    </div>
+
+                    <h4>
+                        Reduce Costs
+                    </h4>
+
+                    <p>
+                        Identify areas where your business can
+                        improve efficiency and reduce unnecessary costs.
+                    </p>
+
+                    <a href="signup.html">
+                        Ask AI <img class="ic" src="icons/arrow.svg" alt="">
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* SIDEBAR */
+
+        function toggleSidebar() {
+
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
+
+        }
+
+
+        /* THEME */
+
+        function toggleTheme() {
+
+            document.body.classList.toggle("dark");
+
+            if (document.body.classList.contains("dark")) {
+
+                localStorage.setItem("theme", "dark");
+
+            } else {
+
+                localStorage.setItem("theme", "light");
+
+            }
+
+        }
+
+
+        /* LOAD THEME */
+
+        window.addEventListener("DOMContentLoaded", function () {
+
+            const theme = localStorage.getItem("theme");
+
+            if (theme === "dark") {
+
+                document.body.classList.add("dark");
+
+            }
+
+        });
+
+
+        /* COMING SOON */
+
+        function comingSoon(section) {
+
+            alert(section + " page is coming soon!");
+
+        }
+
+    </script>
+
+</body>
+</html>
